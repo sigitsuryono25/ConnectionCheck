@@ -7,6 +7,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.net.wifi.WifiManager
 import android.os.Bundle
+import android.telephony.TelephonyManager
 import android.util.Log
 
 /* *
@@ -28,8 +29,10 @@ class NetworkMonitoring : BroadcastReceiver() {
                 val mWifiInfo = wifiManager.connectionInfo
                 b.putString("connectionName", mWifiInfo.ssid)
             } else {
-                b.putString("connectionName", "Mobile Network")
-                Log.d("mobILE", "MOBILE")
+                val mTelephonyManager =
+                    context.applicationContext.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+                b.putString("connectionName", mTelephonyManager.networkOperatorName)
+                Log.d("mobILE", mTelephonyManager.networkOperatorName)
             }
         }
 
